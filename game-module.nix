@@ -1,0 +1,25 @@
+# Module for Gaming Support on NixOS
+
+{ pkgs, ... }:
+
+{
+
+  # System Packages
+  environment.systemPackages = with pkgs; [
+    mangohud
+    # protonplus
+  ];
+
+  # Enable Gamemode Daemon.
+  programs.gamemode.enable = true;
+
+  # Enable Gamescope Compositor.
+  programs.gamescope.enable = true;
+
+  # Steam Client Configuration.
+  # programs.steam.enable = true;
+
+  # Heroic Games Launcher Configuration.
+  # programs.heroic.enable = true;
+
+}

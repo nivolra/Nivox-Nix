@@ -8,6 +8,12 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./features-module.nix
+      ./firewall-module.nix
+      ./ssh-module.nix
+      ./software-module.nix
+      ./virtualization-module.nix
+      ./game-module.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -87,6 +93,12 @@
     # If you want to use JACK applications, uncomment this
     # jack.enable = true;
   };
+ 
+  # Enable Bluetooth.
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = false;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -98,39 +110,30 @@
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "gamemode" ];
     packages = with pkgs; [
       
-      #KDE Plasma Packages
+      # Plasma Apps
       kdePackages.kate
-      # kdePackages.ocean-sound-theme
-      # kdePackages.oxygen-sounds
+
+      # GNOME Apps
+      gnome-disk-utility
+      gnome-firmware
+      gnome-calculator
+      baobab
+      papers
       
       # Communication
       thunderbird
       element-desktop
-
-      # Terminal apps
-      starship
-      fastfetch
-      htop
-      cava
-      mangohud
-      fortune
-      libnotify
-      # podman
-      distrobox # Containerization
-      
-      # GNOME Apps
-      gnome-disk-utility
-      gnome-firmware
-      gnome-font-viewer
-      gnome-calculator
-      baobab
-      papers
 
       # Media Operations
       vlc
       libdvdcss # DVD Decryption
       filezilla
 
+      # Office
+      libreoffice-qt
+      hunspell
+      hunspellDicts.de_DE
+      hunspellDicts.en_US
     ];
   };
 
@@ -140,17 +143,20 @@
   # Allow unfree packages.
   nixpkgs.config.allowUnfree = true;
 
-  # Allow experimental features in NixOS.
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    # Terminal apps
+    vim # The Nano editor is also installed by default.
     git
     curl
     wget
-    dnsmasq # Networking for libvirt
+    starship # Shell prompter
+    fastfetch
+    htop
+    cava
+    fortune
+    libnotify
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -163,58 +169,8 @@
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-
-  # Enable Flatpak globally for all users.
-  services.flatpak.enable = true;
-
-  # Enable Bluetooth.
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = false;
-  };
-
-  # Enable AppImage support.
-  programs.appimage = {
-    enable = true;
-    binfmt = true;
-  };
-
   # Enable Firmware Updater.
   services.fwupd.enable = true;
-
-  #  programs.appimage.package = pkgs.appimage-run.override 
-  #  {
-    #  extraPkgs = pkgs: 
-    #  [
-      # pkgs.squashfuse
-      # pkgs.squashfsTools
-      # pkgs.icu
-      # pkgs.libxcrypt-legacy
-      # pkgs.python312
-      # pkgs.python312Packages.torch
-    #  ]; 
-  #  };
-
-  # Enable Virtualization support.
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
-
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true; # Creates a symlink from docker to podman
-    defaultNetwork.settings.dns_enabled = true; # Required for containers under podman-compose to be able to talk to each other.
-  };
-
-  # Enable GameMode daemon.
-  programs.gamemode.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
