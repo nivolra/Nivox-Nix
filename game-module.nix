@@ -3,7 +3,6 @@
 { pkgs, ... }:
 
 {
-
   # System Packages
   environment.systemPackages = with pkgs; [
     mangohud
@@ -25,5 +24,4 @@
 
   # Heroic Games Launcher Configuration.
   # programs.heroic.enable = true;
-
 }

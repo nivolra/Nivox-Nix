@@ -2,8 +2,7 @@
 
 { pkgs, ... }:
 
-{
-  
+{ 
   # NIVOS COMMENT
   # To have more choices in terms of software deployment, I include Flatpak and AppImage support.
   # These packages are NOT handled by Nixpkgs, and therefore will be left untouched on rollback events.

@@ -3,7 +3,6 @@
 { ... }:
 
 {
-
   # NIVOS COMMENT
   # To prevent wasting space, these options will regularly check for way to improve Nix Store usage.
   # Additionally, automatic upgrades ensure your system will stay up to date.

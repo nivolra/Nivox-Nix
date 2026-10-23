@@ -3,10 +3,10 @@
 { pkgs, ... }:
 
 {
-
   # NIVOS COMMENT
   # In case you're perfectly content with the defaults of your system, omit this module.
 
+  fonts.fontDir.enable = true;
   fonts.packages = with pkgs; [
     
     # Nerd Fonts.
@@ -24,5 +24,4 @@
     (papirus-icon-theme.override { color = "adwaita"; }) 
 
   ];
-
 }
