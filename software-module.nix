@@ -1,9 +1,15 @@
 # Module for Software Management on NixOS
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  # Allow unfree packages.
+  
+  # NIVOS COMMENT
+  # To have more choices in terms of software deployment, I include Flatpak and AppImage support.
+  # These packages are NOT handled by Nixpkgs, and therefore will be left untouched on rollback events.
+  # If you want to manage your system, using nixpkgs exclusively, omit this module.
+
+  # Allow ALL unfree packages in the Nixpkgs repository.
   nixpkgs.config.allowUnfree = true;
 
   # Enable Flatpak.

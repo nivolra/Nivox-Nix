@@ -14,6 +14,8 @@
       ./software-module.nix
       ./virtualization-module.nix
       ./game-module.nix
+      ./themes-module.nix
+      ./system-optimization.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -141,7 +143,7 @@
   programs.firefox.enable = true;
 
   # Allow unfree packages.
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).

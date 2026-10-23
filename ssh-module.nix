@@ -3,6 +3,10 @@
 { ... }:
 
 {
+
+  # NIVOS COMMENT
+  # If you don't want to connect to your local machine via SSH, omit the module.
+
   services.openssh = {
     enable = true;
     openFirewall = true;

@@ -3,6 +3,11 @@
 { pkgs, ... }:
 
 {
+  
+  # NIVOS COMMENT
+  # Containers and VMs enable me to run complex development workloads without polluting my system.
+  # If you don't plan on using containers or VMs, omit this module
+
   # System Packages.
   environment.systemPackages = with pkgs; [
     dnsmasq
@@ -16,6 +21,7 @@
   # Enable Podman support.
   virtualisation.podman = {
     enable = true;
-    dockerCompat = true; # Creates a symlink from docker to podman
+    # dockerCompat = true; # Creates a symlink from docker to podman
   };
+
 }
