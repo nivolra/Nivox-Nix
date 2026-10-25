@@ -23,5 +23,8 @@
     # Papirus Icon Theme with custom color.
     (papirus-icon-theme.override { color = "adwaita"; }) 
 
+    # Dependencies for Orchis Themes.
+    sassc
+    gnome-themes-extra
   ];
 }

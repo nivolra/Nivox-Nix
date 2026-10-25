@@ -4,13 +4,14 @@
 
 { config, pkgs, ... }:
 
-{ 
+{
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./features-module.nix
       ./firewall-module.nix
       ./ssh-module.nix
+      ./variables-module.nix
       ./software-module.nix
       ./virtualization-module.nix
       ./game-module.nix
@@ -22,7 +23,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "NivoxKDE"; # Define your hostname.
+  networking.hostName = "Nivox"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -51,25 +52,25 @@
   };
 
   # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = false;
+  services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # Exclude certain Xorg packages.
+  services.xserver.excludePackages = with pkgs; [
+    xterm
+  ];
 
-  # Exclude certain KDE Plasma packages.
-  environment.plasma6.excludePackages = with pkgs; [
-    kdePackages.discover
-    kdePackages.okular
-    # kdePackages.elisa # Music player
-    # kdePackages.kdepim-runtime # Akonadi agents
-    # kdePackages.kmahjongg
-    # kdePackages.kmines
-    # kdePackages.konversation # IRC client
-    # kdePackages.kpat # Solitaire
-    # kdePackages.ksudoku
-    # kdePackages.ktorrent
+  # Enable the Ly Login Manager 
+  services.displayManager.ly.enable = true;
+  
+  # Enable the XFCE Desktop Environment.
+  services.xserver.desktopManager.xfce.enable = true;
+
+  # Exclude certain XFCE packages.
+  environment.xfce.excludePackages = with pkgs; [
+    mousepad
+    parole
+    ristretto
+    xfce4-screenshooter
   ];
 
   # Configure keymap in X11
@@ -84,6 +85,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # Graphical Manager for printing devices.
+  programs.system-config-printer.enable = true;
+
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -95,7 +99,7 @@
     # If you want to use JACK applications, uncomment this
     # jack.enable = true;
   };
- 
+
   # Enable Bluetooth.
   hardware.bluetooth = {
     enable = true;
@@ -111,28 +115,49 @@
     description = "Nivolra";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" "gamemode" ];
     packages = with pkgs; [
-      
-      # Plasma Apps
-      kdePackages.kate
 
-      # GNOME Apps
+      # Bluetooth Device Management
+      blueman
+    
+      # Terminal Apps
+      starship
+      fastfetch
+      htop
+      cava
+      fortune
+
+      # XFCE Apps
+      xfce4-whiskermenu-plugin
+      xfce4-clipman-plugin
+      libnotify
+
+      # Plasma Apps
+      qt6Packages.qt6ct # Theming for QT6 Apps
+      libsForQt5.qt5ct # Theming for QT5 Apps
+
+      # GNOME Apps 
       gnome-disk-utility
       gnome-firmware
+      gnome-screenshot
+      gnome-calendar
       gnome-calculator
-      baobab
-      papers
-      
-      # Communication
-      thunderbird
-      element-desktop
+      baobab # Disk Usage Analyzer
+      eog # Image Viewer
+      papers # PDF Viewer and Editor
 
+      # Archive Operations
+      file-roller
+
+      # Communication
+      element-desktop
+      
       # Media Operations
       vlc
       libdvdcss # DVD Decryption
       filezilla
-
+ 
       # Office
-      libreoffice-qt
+      libreoffice-still
       hunspell
       hunspellDicts.de_DE
       hunspellDicts.en_US
@@ -142,8 +167,8 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Allow unfree packages.
-  # nixpkgs.config.allowUnfree = true;
+  # Install thunderbird.
+  programs.thunderbird.enable = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -153,12 +178,6 @@
     git
     curl
     wget
-    starship # Shell prompter
-    fastfetch
-    htop
-    cava
-    fortune
-    libnotify
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -197,4 +216,5 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "26.05"; # Did you read the comment?
+
 }
